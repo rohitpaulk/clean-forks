@@ -1,0 +1,40 @@
+$top-bar-black: #24292E;
+
+.top-bar {
+    background-color: $top-bar-black;
+    height: 54px;
+}
+
+.top-bar-inner {
+    height: 54px;
+    width: 960px;
+    margin-left: auto;
+    margin-right: auto;
+    color: #ededed;
+}
+
+.top-bar .logo-txt {
+    display: block;
+    float: left;
+    height: 54px;
+    line-height: 54px;
+
+    font-family: "Open Sans", sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.top-bar .logo-img {
+    display: block;
+    float: left;
+    height: 54px;
+    line-height: 54px;
+
+    padding-right: 5px;
+}
+
+.top-bar .logo-img img {
+    width: 22px;
+    display: inline-block;
+    vertical-align: middle;
+}
