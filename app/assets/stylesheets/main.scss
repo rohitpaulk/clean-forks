@@ -6,6 +6,14 @@ $top-bar-black: #24292E;
     margin-right: auto;
 }
 
+@mixin clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
 /*
  * ----------------------------------------
  * ---------------  TOP BAR ---------------
@@ -139,10 +147,22 @@ $filter-item-border-thickness: 4px;
     padding-bottom: 25px;
     font-family: "Open Sans", sans-serif;
     border-top: 1px solid #E1E4E8;
+	@include clearfix();
 }
 
 .search-result-item .info-container {
     width: 60%;
+    float: left;
+}
+
+.search-result-item .checks-container {
+    width: 25%;
+    float: left;
+}
+
+.search-result-item .actions-container {
+    width: 15%;
+    float: left;
 }
 
 .search-result-item .info-container .title {
@@ -172,6 +192,19 @@ $filter-item-border-thickness: 4px;
     font-size: 12px;
     font-weight: lighter;
     color: #586069;
+}
+
+.check-item {
+    text-align: right;
+    color: #555;
+    font-size: 14px;
+    font-weight: lighter;
+    padding-bottom: 10px;
+}
+.check-item img {
+    width: 22px;
+    vertical-align: middle;
+    margin-left: 5px;
 }
 
 
