@@ -1,15 +1,25 @@
 $top-bar-black: #24292E;
 
+@mixin centered-container() {
+    width: 960px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/*
+ * ----------------------------------------
+ * ---------------  TOP BAR ---------------
+ * ----------------------------------------
+ */
+
 .top-bar {
     background-color: $top-bar-black;
     height: 54px;
 }
 
 .top-bar-inner {
+    @include centered-container();
     height: 54px;
-    width: 960px;
-    margin-left: auto;
-    margin-right: auto;
     color: #ededed;
 }
 
@@ -36,5 +46,69 @@ $top-bar-black: #24292E;
 .top-bar .logo-img img {
     width: 22px;
     display: inline-block;
+    vertical-align: middle;
+}
+
+/*
+ * --------------------------------------------
+ * --------------  FILTER LIST ----------------
+ * --------------------------------------------
+ */
+
+$filter-item-height: 63px;
+$filter-item-border-thickness: 4px;
+
+.filter-list-container {
+    border-bottom: 1px solid #E1E4E8;
+}
+
+.filter-list {
+    @include centered-container();
+    font-family: "Open Sans", sans-serif;
+}
+
+.filter-list .filter-item {
+    display: inline-block;
+    line-height: $filter-item-height;
+    position: relative;
+}
+
+.filter-item .active-border {
+    width: 100%;
+    height: $filter-item-border-thickness;
+    position: absolute;
+    bottom: 0px;
+    background-color: transparent;
+}
+
+.filter-item.active .active-border, .filter-item:hover .active-border {
+    background-color: #396;
+}
+
+.filter-item:hover {
+    cursor: pointer;
+
+    & .active-border {
+        background-color: #396;
+    }
+}
+
+.filter-item .text, .filter-item .icon {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.filter-item .text {
+    color: #586069;
+    font-size: 14px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.filter-item .icon {
+    padding-right: 10px;
+}
+.filter-item .icon img {
+    width: 22px;
     vertical-align: middle;
 }
