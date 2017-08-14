@@ -233,3 +233,17 @@ $filter-item-border-thickness: 4px;
         cursor: pointer;
     }
 }
+
+.footer {
+    @include centered-container();
+    font-family: "Open Sans", sans-serif;
+    text-align: center;
+    a {
+        font-size: 14px;
+        font-weight: lighter;
+        color: #555;
+    }
+    border-top: 1px solid #E1E4E8;
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
