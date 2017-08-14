@@ -25,3 +25,47 @@
     </div>
   </div>
 </div>
+
+<div class="search-info">
+  24 repositories matched
+</div>
+
+<% repos = [
+  {
+    name: "gratipay/gratipay.com",
+    description: "Gratitude? Gratipay! We help companies and others pay for open source.",
+    forked_ago: "3 months",
+  },
+  {
+    name: "1egoman/backstroke",
+    description: "🏊 A Github bot to keep repository forks up to date with their upstream. ",
+    forked_ago: "4 years",
+  },
+  {
+    name: "qunitjs/qunit",
+    description: "An easy-to-use JavaScript Unit Testing framework.",
+    forked_ago: "30 minutes",
+  }
+] %>
+
+<div class="search-result-list">
+  <% repos.each do |repo| %>
+    <div class="search-result-item">
+      <div class="info-container">
+        <div class="title">
+          <a href="https://github.com/"><%= repo[:name] %></a>
+        </div>
+        <div class="description">
+          <%= repo[:description] %>
+        </div>
+        <div class="footnote">
+          Forked <%= repo[:forked_ago] %> ago
+        </div>
+      </div>
+      <div class="checks-container">
+      </div>
+      <div class="actions-container">
+      </div>
+    </div>
+  <% end %>
+</div>

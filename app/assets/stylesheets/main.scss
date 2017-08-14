@@ -112,3 +112,66 @@ $filter-item-border-thickness: 4px;
     width: 22px;
     vertical-align: middle;
 }
+
+/*
+ * -----------------------------------------------
+ * --------------  SEARCH RESULTS  ---------------
+ * -----------------------------------------------
+ */
+
+.search-info {
+    @include centered-container();
+
+    color: #333333;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: "Open Sans", sans-serif;
+    padding-top: 40px;
+    padding-bottom: 15px;
+}
+
+.search-result-list {
+    @include centered-container();
+}
+
+.search-result-item {
+    padding-top: 25px;
+    padding-bottom: 25px;
+    font-family: "Open Sans", sans-serif;
+    border-top: 1px solid #E1E4E8;
+}
+
+.search-result-item .info-container {
+    width: 60%;
+}
+
+.search-result-item .info-container .title {
+    margin-bottom: 15px;
+}
+
+.search-result-item .info-container .title a {
+    color: #396;
+    font-weight: bold;
+    font-size: 20px;
+    text-decoration: none;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.search-result-item .info-container .description {
+    width: 320px;
+    line-height: 22px;
+    font-weight: lighter;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.search-result-item .info-container .footnote {
+    font-size: 12px;
+    font-weight: lighter;
+    color: #586069;
+}
+
+
