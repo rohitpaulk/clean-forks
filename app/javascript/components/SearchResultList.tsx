@@ -8,26 +8,26 @@ export interface SearchResultListProps {
 
 let InfoContainer = function(props: {repo: GitRepo}) {
     return <div className="info-container">
-      <div className="title">
-        <a href="https://github.com/">{props.repo.parentNameWithOwner}</a>
-      </div>
-      <div className="description">
-        {props.repo.description}
-      </div>
-      <div className="footnote">
-        Forked 3 months ago
-      </div>
+        <div className="title">
+            <a href="https://github.com/">{props.repo.parentNameWithOwner}</a>
+        </div>
+        <div className="description">
+            {props.repo.description}
+        </div>
+        <div className="footnote">
+            Forked 3 months ago
+        </div>
     </div>;
 };
 
 let ChecksContainer = function(props) {
     return <div className="checks-container">
-      <div className="check-item">
-        No open PRs <span className="check-icon icon-success"></span>
-      </div>
-      <div className="check-item">
-        No unmerged branches <span className="check-icon icon-success"></span>
-      </div>
+        <div className="check-item">
+            No open PRs <span className="check-icon icon-success"></span>
+        </div>
+        <div className="check-item">
+            No unmerged branches <span className="check-icon icon-success"></span>
+        </div>
     </div>;
 };
 
