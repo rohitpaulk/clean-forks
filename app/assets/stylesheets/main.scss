@@ -65,6 +65,7 @@ $top-bar-black: #24292E;
 
 $filter-item-height: 63px;
 $filter-item-border-thickness: 4px;
+$filter-icon-width: 22px;
 
 .filter-list-container {
     border-bottom: 1px solid #E1E4E8;
@@ -79,6 +80,7 @@ $filter-item-border-thickness: 4px;
     display: inline-block;
     line-height: $filter-item-height;
     position: relative;
+    margin-right: 10px;
 }
 
 .filter-item .active-border {
@@ -115,10 +117,16 @@ $filter-item-border-thickness: 4px;
 
 .filter-item .icon {
     padding-right: 10px;
+    width: 10px + $filter-icon-width;
+    background-image: image-url("inactive-filter.png");
+    background-size: $filter-icon-width $filter-icon-width;
+    height: $filter-item-height;
+    background-repeat: no-repeat;
+    background-position: center;
 }
-.filter-item .icon img {
-    width: 22px;
-    vertical-align: middle;
+
+.filter-item.active .icon {
+    background-image: image-url("active-filter.png");
 }
 
 /*
