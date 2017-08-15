@@ -135,6 +135,8 @@ $filter-icon-width: 22px;
  * -----------------------------------------------
  */
 
+$check-icon-width: 22px;
+
 .search-info {
     @include centered-container();
 
@@ -209,10 +211,24 @@ $filter-icon-width: 22px;
     font-weight: lighter;
     padding-bottom: 10px;
 }
-.check-item img {
-    width: 22px;
+
+.check-item .check-icon {
+    display: inline-block;
+    width: $check-icon-width;
+    height: $check-icon-width;
     vertical-align: middle;
     margin-left: 5px;
+    background-size: $check-icon-width $check-icon-width;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.check-item .check-icon.icon-success {
+    background-image: image-url("check-success.png");
+}
+
+.check-item .check-icon.icon-warning {
+    background-image: image-url("check-warning.png");
 }
 
 .search-result-item .actions-container .delete-button {
