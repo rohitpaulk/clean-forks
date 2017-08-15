@@ -4,34 +4,48 @@ import * as ReactDOM from "react-dom";
 import { FilterList } from "../components/FilterList";
 import { SearchResultList } from "../components/SearchResultList";
 import { GitRepo } from "../models";
+import { API } from "../API";
 
-let repos = [
-  {
-    id: '1',
-    parentNameWithOwner: "gratipay/gratipay.com",
-    description: "Gratitude? Gratipay! We help companies and others pay for open source.",
-    forkedAt: 123
-  },
-  {
-    id: '2',
-    parentNameWithOwner: "1egoman/backstroke",
-    description: "🏊 A Github bot to keep repository forks up to date with their upstream. ",
-    forkedAt: 123
-  },
-  {
-    id: '3',
-    parentNameWithOwner: "qunitjs/qunit",
-    description: "An easy-to-use JavaScript Unit Testing framework.",
-    forkedAt: 123
-  }
-];
+interface AppState {
+    repos: GitRepo[]
+}
+
+class App extends React.Component<{}, AppState> {
+    API: API
+
+    constructor(props) {
+        super(props);
+
+        this.API = new API("test_url");
+        this.state = {repos: []};
+    }
+
+    componentWillMount() {
+        let app = this;
+        this.API.getRepos().then(function(repos) {
+            console.log("Setting state");
+            app.setState({repos: repos});
+        });
+    }
+
+    render() {
+        return <div>
+            <div className="filter-list-container">
+                <FilterList/>
+            </div>
+
+            <div className="search-info">
+                24 repositories matched
+            </div>
+
+            <div className="search-result-list-container">
+                <SearchResultList repos={this.state.repos}/>
+            </div>
+        </div>;
+    }
+}
 
 ReactDOM.render(
-    <FilterList/>,
-    document.getElementById("filter-list")
-);
-
-ReactDOM.render(
-    <SearchResultList repos={repos}/>,
-    document.getElementById("search-result-list")
+    <App />,
+    document.getElementById("app")
 );
