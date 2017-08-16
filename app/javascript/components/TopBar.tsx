@@ -25,7 +25,7 @@ class Dropdown extends React.Component<DropdownProps, undefined> {
                     <a href="#">Settings</a>
                 </div>
                 <div className="dropdown-item">
-                    <a href="#">Sign Out</a>
+                    <a href="/logout">Sign Out</a>
                 </div>
             </div>
         </div>;
