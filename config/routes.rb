@@ -3,4 +3,6 @@ Rails.application.routes.draw do
 
   get "auth/github/callback" => "sessions#create"
   get "logout" => "sessions#destroy"
+
+  get "api/v1/user" => "users#show_current"
 end
