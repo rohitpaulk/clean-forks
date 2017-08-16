@@ -70,20 +70,29 @@ $logo-size: 22px;
     margin-right: 5px;
 }
 
-.top-bar .username {
-    font-size: 14px;
-    font-weight: lighter;
-    margin-right: 7px;
-    line-height: $top-bar-height;
-    color: #aaa;
-}
-
 .top-bar .avatar-img {
     display: inline-block;
     vertical-align: middle;
     width: 28px;
     height: 28px;
     border-radius: 5px;
+}
+
+$arrow-size: 10px;
+
+.top-bar .arrow-icon {
+    width: $arrow-size;
+    height: $top-bar-height;
+
+    display: inline-block;
+    vertical-align: middle;
+
+    background-image: image-url("chevron-arrow-down.png");
+    background-size: $arrow-size $arrow-size;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    margin-left: 7px;
 }
 
 /*
