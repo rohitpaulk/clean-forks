@@ -43,7 +43,7 @@ let ChecksContainer = function(props: {checks: GitRepoCheck[]}) {
 
         let checkText = checkTextFormats[check.type][check.status];
 
-        return <div className="check-item">
+        return <div className="check-item" key={check.type}>
             {checkText} <span className={`check-icon ${iconClass}`}></span>
         </div>
     });
