@@ -150,6 +150,7 @@ $check-icon-width: 22px;
 
 .search-result-list {
     @include centered-container();
+    min-height: 60vh;
 }
 
 .search-result-item {
@@ -233,7 +234,7 @@ $check-icon-width: 22px;
 
 .search-result-item .actions-container .delete-button {
     font-family: "Open Sans", sans-serif;
-    padding: 20px;
+    padding: 15px;
     background-color: #C32020;
     border-radius: 4px;
     color: #fff;
