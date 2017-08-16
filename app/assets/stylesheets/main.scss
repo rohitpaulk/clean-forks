@@ -32,7 +32,7 @@ $logo-size: 22px;
 .top-bar-inner {
     @include centered-container();
     height: $top-bar-height;
-    color: #ededed;
+    color: #f0f0f0;
 }
 
 .top-bar-inner .left-group {
@@ -50,6 +50,7 @@ $logo-size: 22px;
     float: left;
     height: $top-bar-height;
     line-height: $top-bar-height;
+
 
     font-size: 20px;
     font-weight: bold;
