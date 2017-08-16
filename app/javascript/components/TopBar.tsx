@@ -22,13 +22,13 @@ function Dropdown(props: {username: string}) {
 }
 
 export function TopBar(props: TopBarProps) {
+    // TODO: Render empty avatar when user is not fetched
     return <div className="top-bar">
         <div className="top-bar-inner">
             <div className="left-group">
                 <span className="logo-img"></span>
                 <span className="logo-txt">Clean Forks</span>
             </div>
-            // Render avatar with plain image when user is null
             {props.user &&
                 <div className="right-group">
                     <img className="avatar-img" src={props.user.avatarUrl}></img>
