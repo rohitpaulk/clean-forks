@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as moment from "moment";
 
 import { GitRepo } from "../models";
 
@@ -7,6 +8,7 @@ export interface SearchResultListProps {
 }
 
 let InfoContainer = function(props: {repo: GitRepo}) {
+    let timeFromNow = moment.unix(props.repo.forkedAt).fromNow();
     return <div className="info-container">
         <div className="title">
             <a href="https://github.com/">{props.repo.parentNameWithOwner}</a>
@@ -15,7 +17,7 @@ let InfoContainer = function(props: {repo: GitRepo}) {
             {props.repo.description}
         </div>
         <div className="footnote">
-            Forked 3 months ago
+            Forked {timeFromNow}
         </div>
     </div>;
 };

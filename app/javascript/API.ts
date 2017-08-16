@@ -5,19 +5,19 @@ let fakeRepos = [
     id: '1',
     parentNameWithOwner: "gratipay/gratipay.com",
     description: "Gratitude? Gratipay! We help companies and others pay for open source.",
-    forkedAt: 123
+    forkedAt: 1502863016
   },
   {
     id: '2',
     parentNameWithOwner: "1egoman/backstroke",
     description: "🏊 A Github bot to keep repository forks up to date with their upstream. ",
-    forkedAt: 123
+    forkedAt: 1497592616
   },
   {
     id: '3',
     parentNameWithOwner: "qunitjs/qunit",
     description: "An easy-to-use JavaScript Unit Testing framework.",
-    forkedAt: 123
+    forkedAt: 1466056616
   }
 ];
 
