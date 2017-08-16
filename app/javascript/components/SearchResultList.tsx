@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as moment from "moment";
 
-import { GitRepo } from "../models";
+import { GitRepo, GitRepoCheck } from "../models";
 
 export interface SearchResultListProps {
     repos: GitRepo[]
@@ -22,14 +22,34 @@ let InfoContainer = function(props: {repo: GitRepo}) {
     </div>;
 };
 
-let ChecksContainer = function(props) {
+let ChecksContainer = function(props: {checks: GitRepoCheck[]}) {
+    let checkItems = props.checks.map(function(check) {
+        let iconClass = {
+            "success": "icon-success",
+            "failure": "icon-warning"
+        }[check.status];
+
+        // TODO: Proper pluralization for zero, one, many
+        let checkTextFormats = {
+            "open_prs": {
+                "success": "No open PRs",
+                "failure": `${check.data.count} open PRs`
+            },
+            "unmerged_branches": {
+                "success": "No unmerged branches",
+                "failure": `${check.data.count} unmerged branches`
+            }
+        };
+
+        let checkText = checkTextFormats[check.type][check.status];
+
+        return <div className="check-item">
+            {checkText} <span className={`check-icon ${iconClass}`}></span>
+        </div>
+    });
+
     return <div className="checks-container">
-        <div className="check-item">
-            No open PRs <span className="check-icon icon-success"></span>
-        </div>
-        <div className="check-item">
-            No unmerged branches <span className="check-icon icon-success"></span>
-        </div>
+        {checkItems}
     </div>;
 };
 
@@ -48,7 +68,7 @@ export const SearchResultList = function (props: SearchResultListProps) {
     let repoItems = props.repos.map(function(repo) {
         return <div className="search-result-item" key={repo.parentNameWithOwner}>
             <InfoContainer repo={repo} />
-            <ChecksContainer />
+            <ChecksContainer checks={repo.checks}/>
             <ActionsContainer />
         </div>;
     });
