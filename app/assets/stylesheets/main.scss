@@ -100,6 +100,10 @@ $arrow-size: 10px;
     position: relative;
 }
 
+.top-bar .dropdown-toggle:hover {
+    cursor: pointer;
+}
+
 .top-bar .dropdown-container {
     width: 180px;
     background-color: #fff;
