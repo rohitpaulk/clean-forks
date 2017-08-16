@@ -9,39 +9,74 @@ interface TopBarState {
     isDropdownOpen: boolean
 }
 
-function Dropdown(props: {heading: string}) {
-    return <div className="dropdown-container">
-        <div className="dropdown-header">
-            <span>{props.heading}</span>
-        </div>
-        <div className="dropdown-item-group">
-            <div className="dropdown-item">
-                <a href="#">Settings</a>
+interface DropdownProps {
+    heading: string,
+    containerRef: any
+}
+
+class Dropdown extends React.Component<DropdownProps, undefined> {
+    render() {
+        return <div className="dropdown-container" ref={this.props.containerRef}>
+            <div className="dropdown-header">
+                <span>{this.props.heading}</span>
             </div>
-            <div className="dropdown-item">
-                <a href="#">Sign Out</a>
+            <div className="dropdown-item-group">
+                <div className="dropdown-item">
+                    <a href="#">Settings</a>
+                </div>
+                <div className="dropdown-item">
+                    <a href="#">Sign Out</a>
+                </div>
             </div>
-        </div>
-    </div>;
+        </div>;
+    }
 }
 
 export class TopBar extends React.Component<TopBarProps, TopBarState> {
-    // TODO: Render empty avatar when user is not fetched
+    dropdownContainerRef: any
+
     constructor(props) {
         super(props)
 
         this.state = {isDropdownOpen: false};
         this.toggleDropdown = this.toggleDropdown.bind(this);
+        this.handleClickOutside = this.handleClickOutside.bind(this);
+        this.setDropdownContainerRef = this.setDropdownContainerRef.bind(this);
+    }
+
+    setDropdownContainerRef(node) {
+        this.dropdownContainerRef = node;
     }
 
     toggleDropdown(e) {
         e.preventDefault();
-        this.setState(prevState => ({
-            isDropdownOpen: !prevState.isDropdownOpen
-        }));
+
+        if (this.state.isDropdownOpen) {
+            this.closeDropdown();
+        } else {
+            this.openDropdown();
+        }
+    }
+
+    handleClickOutside(e) {
+        if (!this.dropdownContainerRef.contains(e.target)) {
+            e.preventDefault();
+            this.closeDropdown();
+        }
+    }
+
+    openDropdown() {
+        document.addEventListener('click', this.handleClickOutside);
+        this.setState({isDropdownOpen: true});
+    }
+
+    closeDropdown() {
+        document.removeEventListener('click', this.handleClickOutside);
+        this.setState({isDropdownOpen: false});
     }
 
     render() {
+        // TODO: Render empty avatar when user is not fetched
         return <div className="top-bar">
             <div className="top-bar-inner">
                 <div className="left-group">
@@ -57,7 +92,7 @@ export class TopBar extends React.Component<TopBarProps, TopBarState> {
                             <span className="arrow-icon"></span>
                         </div>
                         {this.state.isDropdownOpen &&
-                            <Dropdown heading={this.props.user.username}/>}
+                            <Dropdown heading={this.props.user.username} containerRef={this.setDropdownContainerRef} />}
                     </div>
                 }
             </div>
