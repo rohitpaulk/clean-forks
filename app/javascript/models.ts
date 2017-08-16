@@ -37,3 +37,8 @@ export interface GitRepo {
 
     checks: GitRepoCheck[]
 }
+
+export interface User {
+    username: string
+    avatarUrl: string
+}

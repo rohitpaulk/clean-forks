@@ -3,12 +3,13 @@ import * as ReactDOM from "react-dom";
 
 import { FilterList } from "../components/FilterList";
 import { SearchResultList } from "../components/SearchResultList";
-import { GitRepo } from "../models";
+import { GitRepo, User } from "../models";
 import { API } from "../API";
 import { TopBar } from "./TopBar";
 
 interface AppState {
     repos: GitRepo[]
+    user: User | null
 }
 
 export class App extends React.Component<{}, AppState> {
@@ -18,22 +19,25 @@ export class App extends React.Component<{}, AppState> {
         super(props);
 
         this.API = new API("test_url");
-        this.state = {repos: []};
+        this.state = {repos: [], user: null};
     }
 
     componentWillMount() {
         let app = this;
+
         this.API.getRepos().then(function(repos) {
-            console.log("Setting state");
             app.setState({repos: repos});
+        });
+
+        this.API.getUser().then(function(user) {
+            app.setState({user: user});
         });
     }
 
     render() {
         return <div>
             <div className="top-bar-container">
-                <TopBar
-                    avatarUrl="https://avatars1.githubusercontent.com/u/3893573?v=4"/>
+                <TopBar user={this.state.user} />
             </div>
             <div className="filter-list-container">
                 <FilterList/>

@@ -1,14 +1,14 @@
 import * as React from 'react';
+import { User } from "../models";
 
 interface TopBarProps {
-    // TODO: Add avatar details
-    avatarUrl: string
+    user: User | null
 }
 
-function Dropdown(props) {
+function Dropdown(props: {username: string}) {
     return <div className="dropdown-container">
         <div className="dropdown-header">
-            <span>rohitpaulk</span>
+            <span>{props.username}</span>
         </div>
         <div className="dropdown-item-group">
             <div className="dropdown-item">
@@ -28,11 +28,13 @@ export function TopBar(props: TopBarProps) {
                 <span className="logo-img"></span>
                 <span className="logo-txt">Clean Forks</span>
             </div>
-            <div className="right-group">
-                <img className="avatar-img" src={props.avatarUrl}></img>
-                <span className="arrow-icon"></span>
-                <Dropdown />
-            </div>
+            // Render avatar with plain image when user is null
+            {props.user &&
+                <div className="right-group">
+                    <img className="avatar-img" src={props.user.avatarUrl}></img>
+                    <span className="arrow-icon"></span>
+                    <Dropdown username={props.user.username}/>
+                </div>}
         </div>
     </div>;
 }

@@ -1,4 +1,4 @@
-import { GitRepo, OpenPRCheck, UnmergedBranchCheck } from './models';
+import { GitRepo, OpenPRCheck, UnmergedBranchCheck, User } from './models';
 
 let allChecksOk = [
     {
@@ -13,6 +13,11 @@ let allChecksOk = [
         data: { count: 0, items: [] }
     } as UnmergedBranchCheck // Why should I specify the type here?
 ];
+
+let fakeUser: User = {
+    username: "rohitpaulk",
+    avatarUrl: "https://avatars1.githubusercontent.com/u/3893573?v=4"
+};
 
 let fakeRepos: GitRepo[] = [
     {
@@ -62,6 +67,14 @@ export class API {
             return setInterval(function() {
                 resolve(fakeRepos);
             }, 500);
+        });
+    }
+
+    getUser(): Promise<User> {
+        return new Promise(function(resolve, reject) {
+            return setInterval(function() {
+                resolve(fakeUser);
+            }, 1000);
         });
     }
 }
