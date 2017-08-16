@@ -1,4 +1,5 @@
 import { GitRepo, OpenPRCheck, UnmergedBranchCheck, User } from './models';
+import axios from 'axios';
 
 let allChecksOk = [
     {
@@ -71,10 +72,15 @@ export class API {
     }
 
     getUser(): Promise<User> {
+        let apiUrl = this.url;
         return new Promise(function(resolve, reject) {
-            return setInterval(function() {
-                resolve(fakeUser);
-            }, 1000);
+            let axiosPromise = axios.get(apiUrl + '/api/v1/user.json');
+            axiosPromise.then(function(resp) {
+                resolve({
+                    username: resp.data.username,
+                    avatarUrl: resp.data.avatar_url
+                });
+            });
         });
     }
 }

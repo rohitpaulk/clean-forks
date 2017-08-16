@@ -12,13 +12,17 @@ interface AppState {
     user: User | null
 }
 
-export class App extends React.Component<{}, AppState> {
+interface AppProps {
+    apiUrl: string
+}
+
+export class App extends React.Component<AppProps, AppState> {
     API: API
 
     constructor(props) {
         super(props);
 
-        this.API = new API("test_url");
+        this.API = new API(props.apiUrl);
         this.state = {repos: [], user: null};
     }
 
