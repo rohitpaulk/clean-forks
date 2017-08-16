@@ -5,6 +5,7 @@ import { FilterList } from "../components/FilterList";
 import { SearchResultList } from "../components/SearchResultList";
 import { GitRepo } from "../models";
 import { API } from "../API";
+import { TopBar } from "./TopBar";
 
 interface AppState {
     repos: GitRepo[]
@@ -30,6 +31,9 @@ export class App extends React.Component<{}, AppState> {
 
     render() {
         return <div>
+            <div className="top-bar-container">
+                <TopBar/>
+            </div>
             <div className="filter-list-container">
                 <FilterList/>
             </div>

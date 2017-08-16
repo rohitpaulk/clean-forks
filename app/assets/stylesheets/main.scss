@@ -20,22 +20,25 @@ $top-bar-black: #24292E;
  * ----------------------------------------
  */
 
+$top-bar-height: 54px;
+$logo-size: 22px;
+
 .top-bar {
     background-color: $top-bar-black;
-    height: 54px;
+    height: $top-bar-height;
 }
 
 .top-bar-inner {
     @include centered-container();
-    height: 54px;
+    height: $top-bar-height;
     color: #ededed;
 }
 
 .top-bar .logo-txt {
     display: block;
     float: left;
-    height: 54px;
-    line-height: 54px;
+    height: $top-bar-height;
+    line-height: $top-bar-height;
 
     font-family: "Open Sans", sans-serif;
     font-size: 20px;
@@ -45,16 +48,16 @@ $top-bar-black: #24292E;
 .top-bar .logo-img {
     display: block;
     float: left;
-    height: 54px;
-    line-height: 54px;
 
-    padding-right: 5px;
-}
+    width: $logo-size;
+    height: $top-bar-height;
 
-.top-bar .logo-img img {
-    width: 22px;
-    display: inline-block;
-    vertical-align: middle;
+    background-image: image-url("code-fork-symbol.png");
+    background-size: $logo-size $logo-size;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    margin-right: 5px;
 }
 
 /*
