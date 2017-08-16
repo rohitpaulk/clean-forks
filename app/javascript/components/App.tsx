@@ -32,7 +32,8 @@ export class App extends React.Component<{}, AppState> {
     render() {
         return <div>
             <div className="top-bar-container">
-                <TopBar/>
+                <TopBar username="rohitpaulk"
+                        avatarUrl="https://avatars1.githubusercontent.com/u/3893573?v=4"/>
             </div>
             <div className="filter-list-container">
                 <FilterList/>

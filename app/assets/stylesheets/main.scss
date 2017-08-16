@@ -26,6 +26,7 @@ $logo-size: 22px;
 .top-bar {
     background-color: $top-bar-black;
     height: $top-bar-height;
+    font-family: "Open Sans", sans-serif;
 }
 
 .top-bar-inner {
@@ -34,13 +35,22 @@ $logo-size: 22px;
     color: #ededed;
 }
 
+.top-bar-inner .left-group {
+    float: left;
+    height: $top-bar-height;
+}
+
+.top-bar-inner .right-group {
+    float: right;
+    height: $top-bar-height;
+}
+
 .top-bar .logo-txt {
     display: block;
     float: left;
     height: $top-bar-height;
     line-height: $top-bar-height;
 
-    font-family: "Open Sans", sans-serif;
     font-size: 20px;
     font-weight: bold;
 }
@@ -58,6 +68,22 @@ $logo-size: 22px;
     background-position: center;
 
     margin-right: 5px;
+}
+
+.top-bar .username {
+    font-size: 14px;
+    font-weight: lighter;
+    margin-right: 7px;
+    line-height: $top-bar-height;
+    color: #aaa;
+}
+
+.top-bar .avatar-img {
+    display: inline-block;
+    vertical-align: middle;
+    width: 28px;
+    height: 28px;
+    border-radius: 5px;
 }
 
 /*
