@@ -5,6 +5,22 @@ interface TopBarProps {
     avatarUrl: string
 }
 
+function Dropdown(props) {
+    return <div className="dropdown-container">
+        <div className="dropdown-header">
+            <span>rohitpaulk</span>
+        </div>
+        <div className="dropdown-item-group">
+            <div className="dropdown-item">
+                <a href="#">Settings</a>
+            </div>
+            <div className="dropdown-item">
+                <a href="#">Sign Out</a>
+            </div>
+        </div>
+    </div>;
+}
+
 export function TopBar(props: TopBarProps) {
     return <div className="top-bar">
         <div className="top-bar-inner">
@@ -15,19 +31,7 @@ export function TopBar(props: TopBarProps) {
             <div className="right-group">
                 <img className="avatar-img" src={props.avatarUrl}></img>
                 <span className="arrow-icon"></span>
-                <div className="dropdown-container">
-                    <div className="dropdown-header">
-                        <span>rohitpaulk</span>
-                    </div>
-                    <div className="dropdown-item-group">
-                        <div className="dropdown-item">
-                            <a href="#">Settings</a>
-                        </div>
-                        <div className="dropdown-item">
-                            <a href="#">Sign Out</a>
-                        </div>
-                    </div>
-                </div>
+                <Dropdown />
             </div>
         </div>
     </div>;
