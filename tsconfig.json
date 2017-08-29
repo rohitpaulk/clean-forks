@@ -1,7 +1,12 @@
 {
-  "compilerOptions": {
-    "sourceMap": true,
-    "jsx": "react",
-    "lib": ["ES5", "ES2015", "DOM"]
-  }
+    "compilerOptions": {
+        "sourceMap": true,
+        "jsx": "react",
+        "lib": ["ES5", "ES2015", "DOM"]
+    },
+    "exclude": [
+        "node_modules",
+        "vendor/bundle",
+        "app/javascript/packs/tests"
+    ]
 }
