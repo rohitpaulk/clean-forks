@@ -33,7 +33,7 @@ $subheading-y-top-collapsed: $heading-y-top-collapsed + $heading-height + 5px;
 
 $subheading-height: 2 * $subheading-line-height;
 $animatable-wrapper-height-expanded: $subheading-y-top-expanded + $subheading-height + 50px;
-$animatable-wrapper-height-collapsed: $subheading-y-top-collapsed + $subheading-height + 10px;
+$animatable-wrapper-height-collapsed: $subheading-y-top-collapsed + 10px;
 
 .marketing-wrapper {
     max-width: $content-width;
@@ -42,6 +42,7 @@ $animatable-wrapper-height-collapsed: $subheading-y-top-collapsed + $subheading-
     font-family: "Open Sans", sans-serif;
     padding-left: 20px;
     padding-right: 20px;
+    margin-bottom: 20px;
 }
 
 .animatable-wrapper {
@@ -125,8 +126,11 @@ $animatable-wrapper-height-collapsed: $subheading-y-top-collapsed + $subheading-
 
     opacity: 1;
     max-width: $subheading-width-expanded;
-    transition-property: max-width, opacity, top, left, transform;
-    transition-duration: $transition-duration;
+    transition: max-width $transition-duration,
+                opacity 500ms,
+                top $transition-duration,
+                left $transition-duration,
+                transform $transition-duration;
 }
 
 .animatable-wrapper.collapsed span.subheading {
