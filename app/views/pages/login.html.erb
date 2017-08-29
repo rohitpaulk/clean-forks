@@ -1,3 +1,44 @@
+<% faqs = [
+  {
+    question: "How does it work?",
+    answer: <<~ANSWER
+      Clean Forks identifies stale github forks based on the following criteria:
+
+      <br/>
+      <br/>
+
+      - No unmerged branches compared to the upstream repository
+
+      <br/>
+
+      - No open PRs in the upstream repository
+
+      <br/>
+      <br/>
+
+      You can filter repos by the above strategies and choose to use one over the other.
+    ANSWER
+  },
+  {
+    question: <<~QUESTION,
+      I don’t want to grant you permission to delete repositories from my
+      Github account. Alternatives?
+    QUESTION
+    answer: <<~ANSWER
+      Valid concern. Clean Forks doesn’t request the `delete_repo` permission
+      by default, the functionality is opt-in. We’ll only ask you to grant
+      that permission when you click on ‘Delete’ from within the app. So you
+      can use the app to know what stale repos you do have.
+
+      <br/>
+      <br/>
+
+      If you’d still like to delete repositories via the UI but aren’t
+      comfortable granting permissions, you can run your own copy of Clean Forks.
+    ANSWER
+  }
+] %>
+
 <div class="marketing-wrapper">
   <div class="animatable-wrapper" id="animatable-wrapper">
     <div class="image-wrapper">
@@ -8,7 +49,18 @@
     <span class="subheading">A tool to cleanup old GitHub forks</span>
   </div>
 
-  <div class="below-animatable-wrapper">
+  <div class="faq-wrapper" id="faq-wrapper">
+    <% faqs.each do |faq| %>
+      <div class="question">
+        <%= faq[:question].html_safe %>
+      </div>
+      <div class="answer">
+        <%= faq[:answer].html_safe %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="sign-in-wrapper">
     <div>
       <a href="/auth/github" class="primary-button">Sign in</a>
     </div>
@@ -20,8 +72,15 @@
   <script>
     var faqToggle = document.getElementById("faq-toggle");
     var animatableWrapper = document.getElementById("animatable-wrapper");
+    var faqWrapper = document.getElementById("faq-wrapper");
     faqToggle.addEventListener('click', function() {
         animatableWrapper.classList.add('collapsed');
+        faqWrapper.classList.add('expanded');
     });
+
+    // Development
+    setTimeout(function() {
+      // faqToggle.click();
+    }, 250);
   </script>
 </div>
