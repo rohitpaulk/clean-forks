@@ -1,35 +1,134 @@
+$image-width-expanded: 100px;
+$image-width-collapsed: 45px;
+$image-height-expanded: 100px;
+$image-height-collapsed: 45px;
+
+$top-margin-expanded: 100px;
+$top-margin-collapsed: 30px;
+
+$heading-width: 186px;
+$heading-height: 30px;
+
+$subheading-line-height: 20px;
+
+$subheading-width-expanded: 150px; // Wrap line
+$subheading-width-collapsed: 300px;
+
+$transition-duration: 1s;
+
+$content-width: 640px;
+
+$heading-y-top-expanded: $image-height-expanded + 10px;
+$heading-y-top-collapsed: 0px;
+$heading-x-left-expanded: ($content-width - $heading-width)/2; // centered
+$heading-x-left-collapsed: $image-width-collapsed + 10px;
+
+$subheading-y-top-expanded: $heading-y-top-expanded + $heading-height + 5px;
+$subheading-y-top-collapsed: $heading-y-top-collapsed + $heading-height + 5px;
+$subheading-x-left-expanded: ($content-width - $subheading-width-expanded)/2;
+$subheading-x-left-collapsed: $heading-x-left-collapsed;
+
+$subheading-height: 2 * $subheading-line-height;
+$animatable-wrapper-height-expanded: $subheading-y-top-expanded + $subheading-height + 50px;
+$animatable-wrapper-height-collapsed: $subheading-y-top-collapsed + $subheading-height + 10px;
+
 .marketing-wrapper {
-    max-width: 300px;
-    text-align: center;
+    max-width: $content-width;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 100px;
     font-family: "Open Sans", sans-serif;
 }
 
-.marketing-wrapper img {
-    margin-bottom: 20px;
+.animatable-wrapper {
+    position: relative;
+
+    height: $animatable-wrapper-height-expanded;
+    margin-top: $top-margin-expanded;
+    transition-property: margin-top, height;
+    transition-duration: $transition-duration;
 }
 
-.marketing-wrapper h1.heading {
+.animatable-wrapper.collapsed {
+    height: $animatable-wrapper-height-collapsed;
+    margin-top: $top-margin-collapsed;
+}
+
+.animatable-wrapper .image-wrapper {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+
+    // Position the image in the left
+    text-align: left;
+
+    max-width: $image-width-expanded; // Width of image
+    transition-property: max-width;
+    transition-duration: $transition-duration;
+}
+
+.animatable-wrapper.collapsed .image-wrapper {
+    max-width: 100%;
+}
+
+.animatable-wrapper .image-wrapper img {
+    width: $image-width-expanded;
+
+    transition-property: width;
+    transition-duration: $transition-duration;
+}
+
+.animatable-wrapper.collapsed .image-wrapper img {
+    width: $image-width-collapsed;
+}
+
+.animatable-wrapper h1.heading {
     font-size: 32px;
     font-weight: bold;
-    margin-bottom: 5px;
     color: #333;
+
+    display: inline-block;
+    position: absolute;
+    width: $heading-width;
+    line-height: $heading-height;
+
+    top: $heading-y-top-expanded;
+    left: $heading-x-left-expanded;
+    transition-property: top, left;
+    transition-duration: $transition-duration;
 }
 
-.marketing-wrapper span.subheading {
+.animatable-wrapper.collapsed h1.heading {
+    top: $heading-y-top-collapsed;
+    left: $heading-x-left-collapsed;
+}
+
+.animatable-wrapper span.subheading {
     display: inline-block;
-    max-width: 150px;
     font-size: 16px;
     font-weight: 300;
     color: #555;
     line-height: 20px;
     margin-bottom: 40px;
+    text-align: center;
+
+    position: absolute;
+    top: $subheading-y-top-expanded;
+    left: $subheading-x-left-expanded;
+
+    max-width: $subheading-width-expanded;
+    transition-property: max-width, top, left;
+    transition-duration: $transition-duration;
 }
 
+.animatable-wrapper.collapsed span.subheading {
+    max-width: $subheading-width-collapsed;
+    top: $subheading-y-top-collapsed;
+    left: $subheading-x-left-collapsed;
+}
+
+
 .marketing-wrapper a.primary-button {
-    display: inline-block;
+    display: block;
     background-color: #396;
     width: 180px;
     line-height: 50px;
@@ -40,6 +139,9 @@
     font-size: 18px;
     margin-bottom: 5px;
     box-shadow: 0px 0px 5px 0px #eee;
+    text-align: center;
+    margin-right: auto;
+    margin-left: auto;
 
     &:hover {
         background-color: darken(#396, 5);
@@ -48,6 +150,9 @@
 }
 
 .marketing-wrapper span.subtext {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
     font-weight: 300;
     font-size: 12px;
 

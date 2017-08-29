@@ -1,15 +1,27 @@
 <div class="marketing-wrapper">
-  <%= image_tag("code-fork-symbol.svg", height: 100) %>
+  <div class="animatable-wrapper" id="animatable-wrapper">
+    <div class="image-wrapper">
+      <%= image_tag("code-fork-symbol.svg") %>
+    </div>
 
-  <h1 class="heading">Clean Forks</h1>
-  <span class="subheading">A tool to cleanup old GitHub forks</span>
-
-  <br/><br/>
-
-  <div>
-    <a href="/auth/github" class="primary-button">Sign in</a>
+    <h1 class="heading">Clean Forks</h1>
+    <span class="subheading">A tool to cleanup old GitHub forks</span>
   </div>
-  <span class="subtext">
-    <a href="#">Need convincing?</a>
-  </span>
+
+  <div class="below-animatable-wrapper">
+    <div>
+      <a href="/auth/github" class="primary-button">Sign in</a>
+    </div>
+    <span class="subtext">
+      <a href="#" id="faq-toggle">Need convincing?</a>
+    </span>
+  </div>
+
+  <script>
+    var faqToggle = document.getElementById("faq-toggle");
+    var animatableWrapper = document.getElementById("animatable-wrapper");
+    faqToggle.addEventListener('click', function() {
+        animatableWrapper.classList.add('collapsed');
+    });
+  </script>
 </div>
