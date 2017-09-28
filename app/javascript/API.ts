@@ -43,7 +43,7 @@ let fakeRepos: GitRepo[] = [
         checks: [
             {
                 type: "open_prs",
-                status: "success",
+                status: "pending",
                 data: { count: 0, items: [] }
             } as OpenPRCheck, // Why should I specify the type here?
 

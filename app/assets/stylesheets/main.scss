@@ -312,6 +312,24 @@ $check-icon-width: 22px;
     background-position: center;
 }
 
+.check-item > span {
+    vertical-align: middle
+}
+
+.check-item .check-text.greyed-out {
+    color: #ddd;
+}
+
+.check-item .check-icon.icon-pending {
+    background-image: image-url("check-pending.png");
+    animation: spin 0.5s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 .check-item .check-icon.icon-success {
     background-image: image-url("check-success.png");
 }

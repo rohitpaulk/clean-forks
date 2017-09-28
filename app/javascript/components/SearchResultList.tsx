@@ -26,25 +26,33 @@ let ChecksContainer = function(props: {checks: GitRepoCheck[]}) {
     let checkItems = props.checks.map(function(check) {
         let iconClass = {
             "success": "icon-success",
-            "failure": "icon-warning"
+            "failure": "icon-warning",
+            "pending": "icon-pending"
         }[check.status];
 
         // TODO: Proper pluralization for zero, one, many
         let checkTextFormats = {
             "open_prs": {
                 "success": "No open PRs",
+                "pending": "Fetching open PRs...",
                 "failure": `${check.data.count} open PRs`
             },
             "unmerged_branches": {
                 "success": "No unmerged branches",
+                "pending": "Fetching unmerged branches...",
                 "failure": `${check.data.count} unmerged branches`
             }
         };
 
+        let textClass = "check-text";
+        if (check.status == "pending") {
+            textClass += " greyed-out";
+        }
         let checkText = checkTextFormats[check.type][check.status];
 
         return <div className="check-item" key={check.type}>
-            {checkText} <span className={`check-icon ${iconClass}`}></span>
+            <span className={textClass}>{checkText}</span>
+            <span className={`check-icon ${iconClass}`}></span>
         </div>
     });
 
