@@ -3,7 +3,7 @@
 //
 // The implementation simply sends out different responses based on the time
 // elapsed.
-import { GitRepo, OpenPRCheck, UnmergedBranchCheck, User } from './models';
+import { GitRepo, OpenPRCheck, UnmergedBranchCheck, GitRepoCheck, User } from './models';
 import axios from 'axios';
 
 let allChecksPending = [
@@ -53,63 +53,116 @@ let fakeUser: User = {
     avatarUrl: "https://avatars1.githubusercontent.com/u/3893573?v=4"
 };
 
-let fakeReposStage1: GitRepo[] = [
-    {
-        id: '1',
-        parentNameWithOwner: "gratipay/gratipay.com",
-        description: "Gratitude? Gratipay! We help companies and others pay for open source.",
-        forkedAt: 1502863016,
-        checks: allChecksOk
-    },
-    {
-        id: '2',
-        parentNameWithOwner: "1egoman/backstroke",
-        description: "🏊 A Github bot to keep repository forks up to date with their upstream. ",
-        forkedAt: 1497592616,
-        checks: allChecksOk
-    },
-    {
-        id: '3',
-        parentNameWithOwner: "qunitjs/qunit",
-        description: "An easy-to-use JavaScript Unit Testing framework.",
-        forkedAt: 1466056616,
-        checks: [
-            {
-                type: "open_prs",
-                status: "pending",
-                data: { count: 0, items: [] }
-            } as OpenPRCheck, // Why should I specify the type here?
+enum Stage {
+    I,
+    II,
+    III,
+    IV
+}
 
-            {
-                type: "unmerged_branches",
-                status: "failure",
-                data: { count: 1, items: [] } // TODO: Add items
-            } as UnmergedBranchCheck // Why should I specify the type here?
-        ]
+function getFakeRepos(stage: Stage): GitRepo[] {
+    let checks: {[key: string]: GitRepoCheck[]} = {};
+    if (stage === Stage.I) {
+        checks = {
+            repo1: allChecksPending,
+            repo2: allChecksPending,
+            repo3: allChecksPending
+        };
+    } else if (stage === Stage.II) {
+        checks = {
+            repo1: allChecksPending,
+            repo2: halfChecksPending,
+            repo3: allChecksPending
+        };
+    } else if (stage === Stage.III) {
+        checks = {
+            repo1: allChecksPending,
+            repo2: halfChecksPending,
+            repo3: halfChecksPending
+        };
+    } else if (stage === Stage.IV) {
+        checks = {
+            repo1: allChecksOk,
+            repo2: allChecksOk,
+            repo3: allChecksOk
+        };
     }
-];
+
+    return [
+        {
+            id: '1',
+            parentNameWithOwner: "gratipay/gratipay.com",
+            description: "Gratitude? Gratipay! We help companies and others pay for open source.",
+            forkedAt: 1502863016,
+            checks: checks.repo1
+        },
+        {
+            id: '2',
+            parentNameWithOwner: "1egoman/backstroke",
+            description: "🏊 A Github bot to keep repository forks up to date with their upstream. ",
+            forkedAt: 1497592616,
+            checks: checks.repo2
+        },
+        {
+            id: '3',
+            parentNameWithOwner: "qunitjs/qunit",
+            description: "An easy-to-use JavaScript Unit Testing framework.",
+            forkedAt: 1466056616,
+            // TODO: Replace from checks!
+            checks: [
+                {
+                    type: "open_prs",
+                    status: "pending",
+                    data: { count: 0, items: [] }
+                } as OpenPRCheck, // Why should I specify the type here?
+
+                {
+                    type: "unmerged_branches",
+                    status: "failure",
+                    data: { count: 1, items: [] } // TODO: Add items
+                } as UnmergedBranchCheck // Why should I specify the type here?
+            ]
+        }
+    ];
+}
 
 export class API {
     url: string
     startTime: number
+    artificialDelayMilliseconds: number
 
     constructor(url: string) {
         this.url = url;
         this.startTime = new Date().getTime();
+        this.artificialDelayMilliseconds = 500;
     }
 
-    getStage(): number {
+    setArtificationDelayMilliseconds(delay: number) {
+        this.artificialDelayMilliseconds = delay;
+    }
+
+    getStage(): Stage {
         let currentTime = new Date().getTime();
         let timeElapsed = currentTime - this.startTime;
 
-        return 0;
+        if (timeElapsed < 500) {
+            return Stage.I;
+        } else if (timeElapsed < 1000) {
+            return Stage.II;
+        } else if (timeElapsed < 1500) {
+            return Stage.III;
+        } else {
+            return Stage.IV
+        }
     }
 
     getRepos(): Promise<GitRepo[]> {
+        let self = this;
         return new Promise(function(resolve, reject) {
             return setInterval(function() {
-                resolve(fakeReposStage1);
-            }, 500);
+                let repos = getFakeRepos(self.getStage())
+                resolve(repos);
+            }, self.artificialDelayMilliseconds);
         });
     }
 
