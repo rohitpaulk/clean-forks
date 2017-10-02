@@ -3,50 +3,51 @@
 //
 // The implementation simply sends out different responses based on the time
 // elapsed.
-import { GitRepo, OpenPRCheck, UnmergedBranchCheck, GitRepoCheck, User } from './models';
-import axios from 'axios';
+import axios from "axios";
 
-let allChecksPending = [
-    {
-        type: "open_prs",
-        status: "pending",
-        data: {}
-    } as OpenPRCheck, // Why should I specify the type here?
+import {
+    GitRepo,
+    OpenPRCheck,
+    UnmergedBranchCheck,
+    GitRepoCheck,
+    User
+} from "./models";
 
-    {
-        type: "unmerged_branches",
-        status: "pending",
-        data: {}
-    } as UnmergedBranchCheck // Why should I specify the type here?
-];
+let prCheckPending: OpenPRCheck = {
+    type: "open_prs",
+    status: "pending",
+    data: { count: 0, items: [] }
+};
 
-let halfChecksPending = [
-    {
-        type: "open_prs",
-        status: "success",
-        data: { count: 0, items: [] }
-    } as OpenPRCheck, // Why should I specify the type here?
+let branchCheckPending: UnmergedBranchCheck = {
+    type: "unmerged_branches",
+    status: "pending",
+    data: { count: 0, items: [] }
+};
 
-    {
-        type: "unmerged_branches",
-        status: "pending",
-        data: {}
-    } as UnmergedBranchCheck // Why should I specify the type here?
-];
+let prCheckSuccess: OpenPRCheck = {
+    type: "open_prs",
+    status: "success",
+    data: { count: 0, items: [] }
+};
 
-let allChecksOk = [
-    {
-        type: "open_prs",
-        status: "success",
-        data: { count: 0, items: [] }
-    } as OpenPRCheck, // Why should I specify the type here?
+let branchCheckSuccess: UnmergedBranchCheck = {
+    type: "unmerged_branches",
+    status: "success",
+    data: { count: 0, items: [] }
+};
 
-    {
-        type: "unmerged_branches",
-        status: "success",
-        data: { count: 0, items: [] }
-    } as UnmergedBranchCheck // Why should I specify the type here?
-];
+let branchCheckFailure: UnmergedBranchCheck = {
+    type: "unmerged_branches",
+    status: "failure",
+    data: { count: 1, items: [] }
+};
+
+let allChecksPending = [prCheckPending, branchCheckPending];
+let halfChecksPendingNoneFailed = [prCheckSuccess, branchCheckPending];
+let halfChecksSuccessOneFailed = [prCheckSuccess, branchCheckFailure];
+let halfChecksOkOneFailed = [prCheckSuccess, branchCheckFailure];
+let allChecksOk = [prCheckSuccess, branchCheckSuccess];
 
 let fakeUser: User = {
     username: "rohitpaulk",
@@ -61,7 +62,7 @@ enum Stage {
 }
 
 function getFakeRepos(stage: Stage): GitRepo[] {
-    let checks: {[key: string]: GitRepoCheck[]} = {};
+    let checks: { [key: string]: GitRepoCheck[] } = {};
     if (stage === Stage.I) {
         checks = {
             repo1: allChecksPending,
@@ -71,96 +72,74 @@ function getFakeRepos(stage: Stage): GitRepo[] {
     } else if (stage === Stage.II) {
         checks = {
             repo1: allChecksPending,
-            repo2: halfChecksPending,
+            repo2: halfChecksPendingNoneFailed,
             repo3: allChecksPending
         };
     } else if (stage === Stage.III) {
         checks = {
             repo1: allChecksPending,
-            repo2: halfChecksPending,
-            repo3: halfChecksPending
+            repo2: halfChecksPendingNoneFailed,
+            repo3: halfChecksOkOneFailed
         };
     } else if (stage === Stage.IV) {
         checks = {
             repo1: allChecksOk,
             repo2: allChecksOk,
-            repo3: allChecksOk
+            repo3: halfChecksOkOneFailed
         };
     }
 
     return [
         {
-            id: '1',
+            id: "1",
             parentNameWithOwner: "gratipay/gratipay.com",
-            description: "Gratitude? Gratipay! We help companies and others pay for open source.",
+            description:
+                "Gratitude? Gratipay! We help companies and others pay for open source.",
             forkedAt: 1502863016,
             checks: checks.repo1
         },
         {
-            id: '2',
+            id: "2",
             parentNameWithOwner: "1egoman/backstroke",
-            description: "🏊 A Github bot to keep repository forks up to date with their upstream. ",
+            description:
+                "🏊 A Github bot to keep repository forks up to date with their upstream. ",
             forkedAt: 1497592616,
             checks: checks.repo2
         },
         {
-            id: '3',
+            id: "3",
             parentNameWithOwner: "qunitjs/qunit",
             description: "An easy-to-use JavaScript Unit Testing framework.",
             forkedAt: 1466056616,
-            // TODO: Replace from checks!
-            checks: [
-                {
-                    type: "open_prs",
-                    status: "pending",
-                    data: { count: 0, items: [] }
-                } as OpenPRCheck, // Why should I specify the type here?
-
-                {
-                    type: "unmerged_branches",
-                    status: "failure",
-                    data: { count: 1, items: [] } // TODO: Add items
-                } as UnmergedBranchCheck // Why should I specify the type here?
-            ]
+            checks: checks.repo3
         }
     ];
 }
 
-export class API {
-    url: string
-    startTime: number
-    artificialDelayMilliseconds: number
+export class FakeBootAPI {
+    url: string;
+    artificialDelayMilliseconds: number;
+    stage: Stage;
 
     constructor(url: string) {
         this.url = url;
-        this.startTime = new Date().getTime();
+        this.stage = Stage.I;
         this.artificialDelayMilliseconds = 500;
+    }
+
+    setStage(stage: Stage) {
+        this.stage = stage;
     }
 
     setArtificationDelayMilliseconds(delay: number) {
         this.artificialDelayMilliseconds = delay;
     }
 
-    getStage(): Stage {
-        let currentTime = new Date().getTime();
-        let timeElapsed = currentTime - this.startTime;
-
-        if (timeElapsed < 500) {
-            return Stage.I;
-        } else if (timeElapsed < 1000) {
-            return Stage.II;
-        } else if (timeElapsed < 1500) {
-            return Stage.III;
-        } else {
-            return Stage.IV
-        }
-    }
-
     getRepos(): Promise<GitRepo[]> {
         let self = this;
         return new Promise(function(resolve, reject) {
             return setInterval(function() {
-                let repos = getFakeRepos(self.getStage())
+                let repos = getFakeRepos(self.stage);
                 resolve(repos);
             }, self.artificialDelayMilliseconds);
         });
@@ -169,7 +148,7 @@ export class API {
     getUser(): Promise<User> {
         let apiUrl = this.url;
         return new Promise(function(resolve, reject) {
-            let axiosPromise = axios.get(apiUrl + '/api/v1/user.json');
+            let axiosPromise = axios.get(apiUrl + "/api/v1/user.json");
             axiosPromise.then(function(resp) {
                 resolve({
                     username: resp.data.username,
@@ -179,3 +158,5 @@ export class API {
         });
     }
 }
+
+export { Stage };
