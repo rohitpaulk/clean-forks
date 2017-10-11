@@ -49,12 +49,17 @@ let halfChecksSuccessOneFailed = [prCheckSuccess, branchCheckFailure];
 let halfChecksOkOneFailed = [prCheckSuccess, branchCheckFailure];
 let allChecksOk = [prCheckSuccess, branchCheckSuccess];
 
-let fakeUser: User = {
-    username: "rohitpaulk",
-    avatarUrl: "https://avatars1.githubusercontent.com/u/3893573?v=4"
-};
+function getFakeUser(stage: Stage): User {
+    return {
+        username: "fake_username",
+        gitRepositoriesSyncedAt: 0,
+        avatarUrl:
+            "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
+    };
+}
 
 enum Stage {
+    O,
     I,
     II,
     III,
@@ -123,7 +128,7 @@ export class FakeBootAPI {
 
     constructor(url: string) {
         this.url = url;
-        this.stage = Stage.I;
+        this.stage = Stage.O;
         this.artificialDelayMilliseconds = 500;
     }
 
@@ -151,11 +156,7 @@ export class FakeBootAPI {
 
         return new Promise(function(resolve, reject) {
             return setInterval(function() {
-                resolve({
-                    username: "fake_username",
-                    avatarUrl:
-                        "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
-                });
+                resolve(getFakeUser(self.stage));
             }, self.artificialDelayMilliseconds);
         });
     }

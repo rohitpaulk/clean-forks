@@ -6,16 +6,20 @@ let initFakeBootAPI = function(seconds_between_stages: number) {
     let ms_between_stages = 1000 * seconds_between_stages;
 
     setTimeout(() => {
-        api.setStage(Stage.II);
+        api.setStage(Stage.I);
     }, ms_between_stages);
 
     setTimeout(() => {
-        api.setStage(Stage.III);
+        api.setStage(Stage.II);
     }, 2 * ms_between_stages);
 
     setTimeout(() => {
-        api.setStage(Stage.IV);
+        api.setStage(Stage.III);
     }, 3 * ms_between_stages);
+
+    setTimeout(() => {
+        api.setStage(Stage.IV);
+    }, 4 * ms_between_stages);
 
     return api;
 };

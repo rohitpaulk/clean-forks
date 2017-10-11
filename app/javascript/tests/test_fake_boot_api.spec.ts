@@ -2,13 +2,25 @@ import "mocha";
 import assert = require("assert");
 import * as _ from "lodash";
 
-import { GitRepo, GitRepoCheck } from "../models";
+import { GitRepo, GitRepoCheck, User } from "../models";
 import { FakeBootAPI, Stage } from "../FakeBootAPI";
 
 describe("Fake Boot API", function() {
-    it("returns all pending checks at the start", function(done) {
+    it("returns empty gitReposSyncedAt at the start", function(done) {
         let fakeAPI = new FakeBootAPI("dummy_url");
         fakeAPI.setArtificationDelayMilliseconds(0);
+
+        fakeAPI.getUser().then((user: User) => {
+            assert.equal(user.gitRepositoriesSyncedAt, 0);
+            done();
+        });
+    });
+
+    it("returns all pending checks at stage 1", function(done) {
+        let fakeAPI = new FakeBootAPI("dummy_url");
+        fakeAPI.setArtificationDelayMilliseconds(0);
+
+        fakeAPI.setStage(Stage.I);
 
         getStatuses(fakeAPI).then(statuses => {
             assert.deepEqual(["pending"], _.uniq(statuses));
