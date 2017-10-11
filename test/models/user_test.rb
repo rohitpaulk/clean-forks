@@ -16,4 +16,25 @@ class UserTest < ActiveSupport::TestCase
     FactoryGirl.create(:git_repository, user: user)
     assert_equal(2, user.git_repositories.count)
   end
+
+  test "#to_json returns proper resource" do
+    user = FactoryGirl.create(:user)
+    json = user.to_json
+
+    assert_equal(user.username, json[:username])
+  end
+
+  test "#to_json returns 0 if synced_at is nil" do
+    user = FactoryGirl.create(:user, git_repositories_synced_at: nil)
+    json = user.to_json
+
+    assert_equal(0, json[:git_repositories_synced_at])
+  end
+
+  test "#to_json returns > 0 if synced_at is nil" do
+    user = FactoryGirl.create(:user, git_repositories_synced_at: Time.now)
+    json = user.to_json
+
+    assert(json[:git_repositories_synced_at] > 0)
+  end
 end

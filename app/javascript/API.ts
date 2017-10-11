@@ -1,5 +1,5 @@
-import { GitRepo, OpenPRCheck, UnmergedBranchCheck, User } from './models';
-import axios from 'axios';
+import { GitRepo, OpenPRCheck, UnmergedBranchCheck, User } from "./models";
+import axios from "axios";
 
 let allChecksOk = [
     {
@@ -17,26 +17,29 @@ let allChecksOk = [
 
 let fakeUser: User = {
     username: "rohitpaulk",
-    avatarUrl: "https://avatars1.githubusercontent.com/u/3893573?v=4"
+    avatarUrl: "https://avatars1.githubusercontent.com/u/3893573?v=4",
+    gitRepositoriesSyncedAt: 12345
 };
 
 let fakeRepos: GitRepo[] = [
     {
-        id: '1',
+        id: "1",
         parentNameWithOwner: "gratipay/gratipay.com",
-        description: "Gratitude? Gratipay! We help companies and others pay for open source.",
+        description:
+            "Gratitude? Gratipay! We help companies and others pay for open source.",
         forkedAt: 1502863016,
         checks: allChecksOk
     },
     {
-        id: '2',
+        id: "2",
         parentNameWithOwner: "1egoman/backstroke",
-        description: "🏊 A Github bot to keep repository forks up to date with their upstream. ",
+        description:
+            "🏊 A Github bot to keep repository forks up to date with their upstream. ",
         forkedAt: 1497592616,
         checks: allChecksOk
     },
     {
-        id: '3',
+        id: "3",
         parentNameWithOwner: "qunitjs/qunit",
         description: "An easy-to-use JavaScript Unit Testing framework.",
         forkedAt: 1466056616,
@@ -57,7 +60,7 @@ let fakeRepos: GitRepo[] = [
 ];
 
 export class API {
-    url: string
+    url: string;
 
     constructor(url: string) {
         this.url = url;
@@ -74,11 +77,13 @@ export class API {
     getUser(): Promise<User> {
         let apiUrl = this.url;
         return new Promise(function(resolve, reject) {
-            let axiosPromise = axios.get(apiUrl + '/api/v1/user.json');
+            let axiosPromise = axios.get(apiUrl + "/api/v1/user.json");
             axiosPromise.then(function(resp) {
                 resolve({
                     username: resp.data.username,
-                    avatarUrl: resp.data.avatar_url
+                    avatarUrl: resp.data.avatar_url,
+                    gitRepositoriesSyncedAt:
+                        resp.data.git_repositories_synced_at
                 });
             });
         });

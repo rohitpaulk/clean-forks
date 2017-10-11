@@ -50,9 +50,10 @@ let halfChecksOkOneFailed = [prCheckSuccess, branchCheckFailure];
 let allChecksOk = [prCheckSuccess, branchCheckSuccess];
 
 function getFakeUser(stage: Stage): User {
+    let gitRepositoriesSyncedAt = stage === Stage.O ? 0 : 12345;
     return {
         username: "fake_username",
-        gitRepositoriesSyncedAt: 0,
+        gitRepositoriesSyncedAt: gitRepositoriesSyncedAt,
         avatarUrl:
             "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
     };
@@ -67,6 +68,10 @@ enum Stage {
 }
 
 function getFakeRepos(stage: Stage): GitRepo[] {
+    if (stage === Stage.O) {
+        return [];
+    }
+
     let checks: { [key: string]: GitRepoCheck[] } = {};
     if (stage === Stage.I) {
         checks = {
