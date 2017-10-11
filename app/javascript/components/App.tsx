@@ -28,28 +28,41 @@ export class App extends React.Component<AppProps, AppState> {
     }
 
     componentWillMount() {
-        let app = this;
-
-        this.API.getUser().then(function(user) {
-            app.setState({ user: user });
-        });
-
-        this.refreshRepos();
+        this.fetchStateFromAPI();
     }
 
-    shouldPollForRepos() {
+    fetchStateFromAPI() {
+        console.log("Fetching state from API");
+
+        let app = this;
+
+        let userPromise = this.API.getUser();
+        let reposPromise = this.API.getRepos();
+
+        Promise.all([userPromise, reposPromise]).then(results => {
+            let [user, repos] = results;
+            app.setState({ user: user, repos: repos });
+
+            if (app.shouldPollAPI()) {
+                setTimeout(() => {
+                    app.fetchStateFromAPI();
+                }, 1000);
+            }
+        });
+    }
+
+    shouldPollAPI() {
         return this.isFetchingRepos() || this.isRepoChecksPending();
     }
 
     isFetchingRepos() {
         let user = this.state.user;
 
-        // Better way to handle this dependency?
         if (user === null) {
             return true;
-        } else {
-            return user.gitRepositoriesSyncedAt == 0;
         }
+
+        return user.gitRepositoriesSyncedAt == 0;
     }
 
     isRepoChecksPending() {
@@ -63,23 +76,15 @@ export class App extends React.Component<AppProps, AppState> {
         return _.includes(checkStatuses, "pending");
     }
 
-    refreshRepos() {
-        console.log("Refreshing repo state");
-
-        let app = this;
-
-        this.API.getRepos().then(function(repos) {
-            app.setState({ repos: repos });
-
-            if (app.shouldPollForRepos()) {
-                setTimeout(() => {
-                    app.refreshRepos();
-                }, 1000);
-            }
-        });
-    }
-
     render() {
+        let headerText = "";
+        if (this.isFetchingRepos()) {
+            headerText = "Fetching repos...";
+        } else {
+            let repos = this.state.repos;
+            headerText = repos.length + " repositories matched";
+        }
+
         return (
             <div>
                 <div className="top-bar-container">
@@ -89,7 +94,7 @@ export class App extends React.Component<AppProps, AppState> {
                     <FilterList />
                 </div>
 
-                <div className="search-info">24 repositories matched</div>
+                <div className="search-info">{headerText}</div>
 
                 <div className="search-result-list-container">
                     <SearchResultList repos={this.state.repos} />
