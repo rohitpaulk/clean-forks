@@ -30,11 +30,26 @@ export class App extends React.Component<AppProps, AppState> {
     componentWillMount() {
         let app = this;
 
-        this.refreshRepos();
-
         this.API.getUser().then(function(user) {
             app.setState({ user: user });
         });
+
+        this.refreshRepos();
+    }
+
+    shouldPollForRepos() {
+        return this.isFetchingRepos() || this.isRepoChecksPending();
+    }
+
+    isFetchingRepos() {
+        let user = this.state.user;
+
+        // Better way to handle this dependency?
+        if (user === null) {
+            return true;
+        } else {
+            return user.gitRepositoriesSyncedAt == 0;
+        }
     }
 
     isRepoChecksPending() {
@@ -56,7 +71,7 @@ export class App extends React.Component<AppProps, AppState> {
         this.API.getRepos().then(function(repos) {
             app.setState({ repos: repos });
 
-            if (app.isRepoChecksPending()) {
+            if (app.shouldPollForRepos()) {
                 setTimeout(() => {
                     app.refreshRepos();
                 }, 1000);
