@@ -1,9 +1,10 @@
+import * as _ from "lodash";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
 import { FilterList } from "../components/FilterList";
 import { SearchResultList } from "../components/SearchResultList";
-import { GitRepo, User } from "../models";
+import { GitRepo, User, GitRepoCheck } from "../models";
 import { API } from "../API";
 import { TopBar } from "./TopBar";
 
@@ -36,6 +37,17 @@ export class App extends React.Component<AppProps, AppState> {
         });
     }
 
+    isRepoChecksPending() {
+        let repos = this.state.repos;
+        let checkStatuses = _.flatMap(repos, function(repo: GitRepo) {
+            return repo.checks.map(function(check: GitRepoCheck) {
+                return check.status;
+            });
+        });
+
+        return _.includes(checkStatuses, "pending");
+    }
+
     refreshRepos() {
         console.log("Refreshing repo state");
 
@@ -44,9 +56,11 @@ export class App extends React.Component<AppProps, AppState> {
         this.API.getRepos().then(function(repos) {
             app.setState({ repos: repos });
 
-            setTimeout(() => {
-                app.refreshRepos();
-            }, 1000);
+            if (app.isRepoChecksPending()) {
+                setTimeout(() => {
+                    app.refreshRepos();
+                }, 1000);
+            }
         });
     }
 
