@@ -29,12 +29,24 @@ export class App extends React.Component<AppProps, AppState> {
     componentWillMount() {
         let app = this;
 
-        this.API.getRepos().then(function(repos) {
-            app.setState({ repos: repos });
-        });
+        this.refreshRepos();
 
         this.API.getUser().then(function(user) {
             app.setState({ user: user });
+        });
+    }
+
+    refreshRepos() {
+        console.log("Refreshing repo state");
+
+        let app = this;
+
+        this.API.getRepos().then(function(repos) {
+            app.setState({ repos: repos });
+
+            setTimeout(() => {
+                app.refreshRepos();
+            }, 1000);
         });
     }
 

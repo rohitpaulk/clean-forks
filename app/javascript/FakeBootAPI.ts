@@ -147,14 +147,16 @@ export class FakeBootAPI {
 
     getUser(): Promise<User> {
         let apiUrl = this.url;
+        let self = this;
+
         return new Promise(function(resolve, reject) {
-            let axiosPromise = axios.get(apiUrl + "/api/v1/user.json");
-            axiosPromise.then(function(resp) {
+            return setInterval(function() {
                 resolve({
-                    username: resp.data.username,
-                    avatarUrl: resp.data.avatar_url
+                    username: "fake_username",
+                    avatarUrl:
+                        "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
                 });
-            });
+            }, self.artificialDelayMilliseconds);
         });
     }
 }
