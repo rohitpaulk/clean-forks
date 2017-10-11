@@ -33,12 +33,12 @@
   },
   "devDependencies": {
     "prettier": "^1.7.3",
-    "webpack-dev-server": "^2.7.1"
+    "webpack-dev-server": "^2.9.1"
   },
   "scripts": {
     "test": "mocha --compilers ts:ts-node/register app/javascript/tests/**/*.ts"
   },
   "prettier": {
-      "tabWidth": 4
+    "tabWidth": 4
   }
 }
